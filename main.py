@@ -130,7 +130,7 @@ def login():
         else:
             login_user(user)
             return redirect(url_for("get_all_posts", logged_in=current_user.is_authenticated))
-    return render_template("login.html", form=login_form)
+    return render_template(url_for("login.html", form=login_form))
 
 
 @app.route("/logout")
@@ -158,17 +158,17 @@ def show_post(post_id):
             db.session.commit()
             comment_form.text.data = ""
             return redirect(url_for('show_post', post_id=post_id))
-    return render_template("post.html", post=requested_post, comment=comment_form, current_user=current_user)
+    return render_template(url_for("post", post=requested_post, comment=comment_form, current_user=current_user))
 
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template(url_for("about"))
 
 
 @app.route("/contact")
 def contact():
-    return render_template("contact.html")
+    return render_template(url_for("contact"))
 
 
 @app.route("/new-post", methods=["POST", 'GET'])
