@@ -45,7 +45,7 @@
                     </div>
                     <div class="commentText">
                       <p>{{ comment.text|safe }} </p>
-                      <span class="date sub-text"> {{ comment.comment_author }}</span>
+                      <span class="date sub-text"> {{ comment.comment_author.name }}</span>
                     </div>
                 </li>
                 {% endfor %}
