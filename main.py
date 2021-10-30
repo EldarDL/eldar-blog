@@ -168,7 +168,7 @@ def about():
 
 @app.route("/contact", methods=["GET"])
 def contact():
-    return render_template("contact.html")
+    return render_template(url_for("contact"))
 
 
 @app.route("/new-post", methods=["POST", 'GET'])
