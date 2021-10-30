@@ -14,11 +14,11 @@ import os
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
-app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL",  "sqlite:///blog.db")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -130,7 +130,7 @@ def login():
         else:
             login_user(user)
             return redirect(url_for("get_all_posts", logged_in=current_user.is_authenticated))
-    return render_template(url_for("login.html", form=login_form))
+    return render_template("login.html", form=login_form)
 
 
 @app.route("/logout")
@@ -158,15 +158,15 @@ def show_post(post_id):
             db.session.commit()
             comment_form.text.data = ""
             return redirect(url_for('show_post', post_id=post_id))
-    return render_template(url_for("post", post=requested_post, comment=comment_form, current_user=current_user))
+    return render_template("post.html", post=requested_post, comment=comment_form, current_user=current_user)
 
 
-@app.route("/about")
+@app.route("/about", methods=["GET"])
 def about():
-    return render_template(url_for("about"))
+    return render_template('about.html')
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET"])
 def contact():
     return render_template(url_for("contact"))
 
